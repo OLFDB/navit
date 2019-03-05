@@ -86,31 +86,18 @@ void setenv(char *var, char *val, int overwrite) {
  * environment_vars[5] is the value used on Windows
  * ':'  is replaced with NAVIT_PREFIX
  * '::' is replaced with NAVIT_PREFIX and LIBDIR
- * '~'  is replaced with HOME
- * ';'  is replaced with USERPROFILE for Windows
+ * '~'  is replaced with HOME on Linux, or USERPROFILE on Windows (not on Windows CE)
 */
 
-#ifdef HAVE_API_WIN32_BASE && !HAVE_API_WIN32_CE
-static char *environment_vars[][5]= {
-    {"NAVIT_LIBDIR",      ":",          ":/"LIB_DIR,     ":\\lib",      ":/lib"},
-    {"NAVIT_SHAREDIR",    ":",          ":/"SHARE_DIR,   ":",    		":/share"},
-    {"NAVIT_LOCALEDIR",   ":/../locale",":/"LOCALE_DIR,  ":\\locale",   ":/locale"},
-    {"NAVIT_USER_DATADIR",":",          "~/.navit",      ";\\navit",    ":/home"},
-    {"NAVIT_LOGFILE",     NULL,         NULL,            ":\\navit.log",NULL},
-    {"NAVIT_LIBPREFIX",   "*/.libs/",   NULL,            NULL,          NULL},
-    {NULL,                NULL,         NULL,            NULL,          NULL},
+static char *environment_vars[][6]= {
+    {"NAVIT_LIBDIR",      ":",          ":/"LIB_DIR,     ":\\lib",      ":/lib",        ":\\lib"},
+    {"NAVIT_SHAREDIR",    ":",          ":/"SHARE_DIR,   ":",           ":/share",      ":"},
+    {"NAVIT_LOCALEDIR",   ":/../locale",":/"LOCALE_DIR,  ":\\locale",   ":/locale",     ":\\locale"},
+    {"NAVIT_USER_DATADIR",":",          "~/.navit",      ":\\data",     ":/home",       "~\\navit"},
+    {"NAVIT_LOGFILE",     NULL,         NULL,            ":\\navit.log",NULL,           ":\\navit.log"},
+    {"NAVIT_LIBPREFIX",   "*/.libs/",   NULL,            NULL,          NULL,           NULL},
+    {NULL,                NULL,         NULL,            NULL,          NULL,           NULL},
 };
-#else
-static char *environment_vars[][5]= {
-    {"NAVIT_LIBDIR",      ":",          ":/"LIB_DIR,     ":\\lib",      ":/lib"},
-    {"NAVIT_SHAREDIR",    ":",          ":/"SHARE_DIR,   ":",           ":/share"},
-    {"NAVIT_LOCALEDIR",   ":/../locale",":/"LOCALE_DIR,  ":\\locale",   ":/locale"},
-    {"NAVIT_USER_DATADIR",":",          "~/.navit",      ":\\data",     ":/home"},
-    {"NAVIT_LOGFILE",     NULL,         NULL,            ":\\navit.log",NULL},
-    {"NAVIT_LIBPREFIX",   "*/.libs/",   NULL,            NULL,          NULL},
-    {NULL,                NULL,         NULL,            NULL,          NULL},
-};
-#endif
 
 
 static void main_setup_environment(int mode) {
@@ -127,7 +114,7 @@ static void main_setup_environment(int mode) {
                     val=g_strdup_printf("%s%s", getenv("NAVIT_PREFIX"), val+1);
                 break;
             case '~':
-#if defined(HAVE_API_WIN32) && !defined(HAVE_API_WIN32_CE) // For Windows only, excluding WinCE
+#ifdef HAVE_API_WIN32_BASE && !HAVE_API_WIN32_CE
                 homedir=getenv("USERPROFILE");
 #else
                 homedir=getenv("HOME");
@@ -136,14 +123,6 @@ static void main_setup_environment(int mode) {
                     homedir="./";
                 val=g_strdup_printf("%s%s", homedir, val+1);
                 break;
-#ifdef HAVE_API_WIN32_BASE && !HAVE_API_WIN32_CE
-            case ';':
-                homedir = getenv("USERPROFILE");
-                if (!homedir)
-                    homedir = "./";
-                val = g_strdup_printf("%s%s", homedir, val + 1);
-                break;
-#endif
             default:
                 val=g_strdup(val);
                 break;
@@ -438,21 +417,12 @@ void main_init(const char *program) {
     }
     if (!getenv("HOME"))
         setenv("HOME", getenv("NAVIT_PREFIX"), 0);
-# if defined(HAVE_API_WIN32) && !defined(HAVE_API_WIN32_CE)
+#ifdef HAVE_API_WIN32_BASE && !HAVE_API_WIN32_CE
     main_setup_environment(4);
-# else /* not (defined(HAVE_API_WIN32) && !defined(HAVE_API_WIN32_CE)) */
-#  if defined(HAVE_API_WIN32_CE) && !defined(HAVE_API_WIN32)
+#endif
+#ifdef HAVE_API_WIN32_CE && !HAVE_API_WIN32_BASE
     main_setup_environment(2);
-#  else /* not (defined(HAVE_API_WIN32_CE) && !defined(HAVE_API_WIN32)) */
-#   if defined(HAVE_API_WIN32_CE)
-#    warning HAVE_API_WIN32_CE is defined
-#   endif
-#   if defined(HAVE_API_WIN32)
-#    warning HAVE_API_WIN32 is defined
-#   endif
-#   error Exactly only one directive amongst HAVE_API_WIN32_CE or HAVE_API_WIN32 should be defined when preprocessor reach this section of code
-#  endif
-# endif
+#endif
 #endif	/* _WIN32 || _WIN32_WCE */
 
     s = getenv("NAVIT_WID");
