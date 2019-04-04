@@ -295,14 +295,14 @@ static void gui_internal_cmd_enter_coord(struct gui_priv *this, char *function, 
 }
 
 static void gui_internal_cmd2_town(struct gui_priv *this, char *function, struct attr **in, struct attr ***out,
-       int *valid) {
+                                   int *valid) {
     if (this->sl)
         search_list_select(this->sl, attr_country_all, 0, 0);
     gui_internal_search(this,_("Town"),"Town",1);
 }
 
 static void gui_internal_cmd2_postal_code(struct gui_priv *this, char *function, struct attr **in, struct attr ***out,
-       int *valid) {
+                                   int *valid) {
     if (this->sl)
         search_list_select(this->sl, attr_country_all, 0, 0);
     gui_internal_search(this,_("Postal"),"Postal code",1);
