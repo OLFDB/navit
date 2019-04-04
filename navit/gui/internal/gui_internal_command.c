@@ -1290,7 +1290,7 @@ static void gui_internal_cmd2(struct gui_priv *this, char *function, struct attr
     else if(!strcmp(function, "about"))
         gui_internal_cmd2_about(this, function, in, out, valid);
     else if(!strcmp(function, "postal_code"))
-            gui_internal_cmd2_postal_code(this, function, in, out, valid);
+        gui_internal_cmd2_postal_code(this, function, in, out, valid);
 
     if(entering)
         graphics_draw_mode(this->gra, draw_mode_end);
