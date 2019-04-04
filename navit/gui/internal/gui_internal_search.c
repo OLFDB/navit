@@ -358,7 +358,7 @@ static void gui_internal_search_idle(struct gui_priv *this, char *wm_name, struc
         item_name=res->town->common.postal;
         result_main_label=town_display_label(res, 1, 0);
         result_sublabel=town_display_label(res, 1, 2);
-    }else if (! strcmp(wm_name,"Street")) {
+    } else if (! strcmp(wm_name,"Street")) {
         item_name=res->street->name;
         item=&res->street->common.item;
         result_main_label=g_strdup(res->street->name);
@@ -427,7 +427,7 @@ static void gui_internal_search_changed(struct gui_priv *this, struct widget *wm
     if (! strcmp(wm->name,"House number"))
         param=(void *)6;
     if (! strcmp(wm->name,"Postal code"))
-           param=(void *)3;
+        param=(void *)3;
     dbg(lvl_debug,"%s now '%s'", wm->name, wm->text);
 
     gui_internal_search_idle_end(this);
@@ -444,7 +444,7 @@ static void gui_internal_search_changed(struct gui_priv *this, struct widget *wm
         if (! strcmp(wm->name,"House number"))
             search_attr.type=attr_house_number;
         if (! strcmp(wm->name,"Postal code"))
-                   search_attr.type=attr_town_postal;
+            search_attr.type=attr_town_postal;
         search_attr.u.str=wm->text;
         search_list_search(this->sl, &search_attr, 1);
         gui_internal_search_idle_start(this, wm->name, search_list, param);
