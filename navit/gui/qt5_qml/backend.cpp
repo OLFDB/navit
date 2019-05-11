@@ -63,24 +63,24 @@ void Backend::showMenu(struct point *p) {
  * @returns nothing
  */
 void Backend::get_maps() {
-    struct attr attr, on, off, description, type, data, active;
+    struct attr attr, /*on, off,*/ description, type, data, active;
     char * label;
     bool is_active;
     struct attr_iter * iter;
     _maps.clear();
 
     iter = navit_attr_iter_new();
-    on.type = off.type = attr_active;
-    on.u.num = 1;
-    off.u.num = 0;
+//    on.type = off.type = attr_active;
+//    on.u.num = 1;
+//    off.u.num = 0;
     while (navit_get_attr(this->nav, attr_map, &attr, iter)) {
         if (map_get_attr(attr.u.map, attr_description, &description, NULL)) {
             label = g_strdup(description.u.str);
         } else {
             if (!map_get_attr(attr.u.map, attr_type, &type, NULL))
-                type.u.str = "";
+                type.u.str = (char *)"";
             if (!map_get_attr(attr.u.map, attr_data, &data, NULL))
-                data.u.str = "";
+                data.u.str = (char *)"";
             label = g_strdup_printf("%s:%s", type.u.str, data.u.str);
         }
         is_active = false;
@@ -159,7 +159,7 @@ void Backend::set_engine(QQmlApplicationEngine * engine) {
  * @returns 0 if the item should be discarded, 1 otherwise
  */
 int Backend::filter_pois(struct item *item) {
-    enum item_type *types;
+//    enum item_type *types;
     enum item_type type=item->type;
     if (type >= type_line)
         return 0;
@@ -173,7 +173,7 @@ int Backend::filter_pois(struct item *item) {
  */
 void Backend::get_bookmarks() {
     struct attr attr,mattr;
-    struct navigation * nav = NULL;
+//    struct navigation * nav = NULL;
     struct item *item;
     struct coord c;
     struct pcoord pc;
@@ -479,8 +479,8 @@ static struct search_param {
   * returns nothing
   */
 void Backend::set_default_country() {
-    _current_country = "Germany";
-    _country_iso2 = "DE";
+    _current_country = (char *)"Germany";
+    _country_iso2 = (char *)"DE";
 }
 
 
@@ -579,7 +579,7 @@ QString Backend::currentCountryIso2() {
 
 QString Backend::currentTown() {
     if (_current_town == NULL) {
-        _current_town = "Enter City";
+        _current_town = (char *)"Enter City";
     }
     dbg(lvl_debug, "Current town : %s", _current_town);
     return QString(_current_town);
@@ -587,7 +587,7 @@ QString Backend::currentTown() {
 
 QString Backend::currentStreet() {
     if (_current_street == NULL) {
-        _current_street = "Enter Street";
+        _current_street = (char *)"Enter Street";
     }
     dbg(lvl_debug, "Current street : %s", _current_street);
     return QString(_current_street);

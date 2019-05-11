@@ -727,7 +727,8 @@ if(ANDROID)
 	set(NAVIT_COMPILE_FLAGS "${NAVIT_COMPILE_FLAGS} -fPIC")
 
 endif(ANDROID)
-
+add_feature(SVG2PNG "Android detected" TRUE)
+add_feature(XPM2PNG "Android detected" TRUE)
 if(FREETYPE_FOUND AND NOT FONTCONFIG_FOUND)
 	add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/navit/fonts")
 endif()
