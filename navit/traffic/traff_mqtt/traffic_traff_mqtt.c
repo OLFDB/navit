@@ -60,10 +60,25 @@ static void traffic_traff_mqtt_on_feed_received(struct traffic_priv * this_,
 
 static void traffic_traff_mqtt_receive(struct traffic_priv * this_);
 
+/**
+ * @brief Called by MQTT thread when a message is delivered.
+ *
+ * @param context The client context
+ * @param dt 	  The token of the message delivered
+ */
 void delivered(void *context, MQTTClient_deliveryToken dt) {
 	printf("MQTT: Message with token value %d delivery confirmed\n", dt);
 	deliveredtoken = dt;
 }
+
+/**
+ * @brief Called by MQTT thread when a new message arrived.
+ *
+ * @param context The client context
+ * @param topicName The name of the topic received
+ * @param topicLen	The length of the topic
+ * @param message	The message
+ */
 int msgarrvd(void *context, char *topicName, int topicLen,
 		MQTTClient_message *message) {
 	int i;
@@ -88,6 +103,13 @@ int msgarrvd(void *context, char *topicName, int topicLen,
 	MQTTClient_free(topicName);
 	return 1;
 }
+
+/**
+ * @brief Called by MQTT thread when the connection to the broker is lost.
+ *
+ * @param context The client context
+ * @param cause   The cause for the connection loss
+ */
 void connlost(void *context, char *cause) {
 	printf("\nMQTT: Connection lost\n");
 	printf("     cause: %s\n\n", cause);
@@ -171,6 +193,12 @@ static void traffic_traff_mqtt_on_feed_received(struct traffic_priv * this_,
 	}
 }
 
+/**
+ * @brief Called by pthread_create in traffic_traff_mqtt_init
+ *
+ * @param this_ Private data for the module instance
+ *
+ */
 static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
 
 	MQTTClient client;
@@ -217,7 +245,7 @@ static int traffic_traff_mqtt_init(struct traffic_priv * this_) {
 	pthread_t subscriber;
 
 	pthread_create(&subscriber, NULL, traffic_traff_mqtt_receive, this_);
-//	traffic_traff_mqtt_receive(this_);
+
 	return 1;
 }
 
