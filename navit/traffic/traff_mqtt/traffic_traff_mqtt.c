@@ -90,7 +90,7 @@ int msgarrvd(void *context, char *topicName, int topicLen,
 }
 void connlost(void *context, char *cause) {
 	printf("\nMQTT: Connection lost\n");
-	printf("     cause: %s\n", cause);
+	printf("     cause: %s\n\n", cause);
 
 	connected = FALSE;
 
@@ -182,6 +182,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
 	conn_opts.keepAliveInterval = 20;
 	conn_opts.cleansession = 1;
 	MQTTClient_setCallbacks(client, this_, connlost, msgarrvd, delivered);
+	int delay=1;
 
 	while (TRUE) {
 
@@ -189,10 +190,13 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
 
 			if ((rc = MQTTClient_connect(client, &conn_opts))
 					!= MQTTCLIENT_SUCCESS) {
-				printf("MQTT: Failed to connect to %s, return code %d\n\n", ADDRESS, rc);
+				printf("MQTT: Failed to connect to %s, return code %d. Try reconnect in %i seconds\n\n", ADDRESS, rc, delay + 1);
+				if(delay < 61)
+					delay++;
 			} else {
 
 				connected = TRUE;
+				delay=1;
 
 				printf("MQTT: Subscribing to topic %s for client %s using QoS%d at %s\n\n",
 				TOPIC, CLIENTID, QOS, ADDRESS);
@@ -200,7 +204,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
 			}
 		}
 
-		sleep(1);
+		sleep(delay);
 	}
 
 }
