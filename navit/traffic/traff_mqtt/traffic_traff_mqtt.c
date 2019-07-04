@@ -43,6 +43,7 @@
 #include "debug.h"
 #include <pthread.h>
 #include "MQTTClient.h"
+#include <stdbool.h>
 
 #define ADDRESS     "tcp://localhost:1883"
 #define CLIENTID    "navit"
@@ -50,49 +51,50 @@
 #define QOS         1
 #define TIMEOUT     10000L
 
+volatile bool connected = FALSE;
+
 volatile MQTTClient_deliveryToken deliveredtoken;
 
 static void traffic_traff_mqtt_on_feed_received(struct traffic_priv * this_,
 		char * feed);
 
-void delivered(void *context, MQTTClient_deliveryToken dt)
-{
-    printf("Message with token value %d delivery confirmed\n", dt);
-    deliveredtoken = dt;
+static void traffic_traff_mqtt_receive(struct traffic_priv * this_);
+
+void delivered(void *context, MQTTClient_deliveryToken dt) {
+	printf("MQTT: Message with token value %d delivery confirmed\n", dt);
+	deliveredtoken = dt;
 }
-int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
-{
-    int i;
-    char* payloadptr;
-    printf("Message arrived\n");
-    printf("     topic: %s\n", topicName);
-    printf("   message: ");
-    payloadptr = message->payload;
-    char traffmsg[message->payloadlen + 1];
-    for(i=0; i<message->payloadlen; i++)
-    {
-        putchar(*payloadptr);
-        traffmsg[i]=*payloadptr++;
-    }
-    putchar('\n');
-    traffmsg[i]=0;
+int msgarrvd(void *context, char *topicName, int topicLen,
+		MQTTClient_message *message) {
+	int i;
+	char* payloadptr;
+	printf("MQTT: Message arrived\n");
+	printf("     topic: %s\n", topicName);
+	printf("   message: ");
+	payloadptr = message->payload;
+	char traffmsg[message->payloadlen + 1];
+	for (i = 0; i < message->payloadlen; i++) {
+		putchar(*payloadptr);
+		traffmsg[i] = *payloadptr++;
+	}
+	putchar('\n');
+	traffmsg[i] = 0;
 
-    payloadptr = message->payload;
+	payloadptr = message->payload;
 
-    traffic_traff_mqtt_on_feed_received(context, traffmsg);
+	traffic_traff_mqtt_on_feed_received(context, traffmsg);
 
-    MQTTClient_freeMessage(&message);
-    MQTTClient_free(topicName);
-    return 1;
+	MQTTClient_freeMessage(&message);
+	MQTTClient_free(topicName);
+	return 1;
 }
-void connlost(void *context, char *cause)
-{
-    printf("\nConnection lost\n");
-    printf("     cause: %s\n", cause);
+void connlost(void *context, char *cause) {
+	printf("\nMQTT: Connection lost\n");
+	printf("     cause: %s\n", cause);
+
+	connected = FALSE;
+
 }
-
-
-
 
 /**
  * @brief Stores information about the plugin instance.
@@ -132,15 +134,15 @@ static void traffic_traff_mqtt_on_feed_received(struct traffic_priv * this_,
 	struct attr * attr;
 
 	struct mapset_handle {
-	    GList *l;	/**< Pointer to the current (next) map */
+		GList *l; /**< Pointer to the current (next) map */
 	};
 
 	struct attr_iter {
-	    void *iter;
-	    union {
-	        GList *list;
-	        struct mapset_handle *mapset_handle;
-	    } u;
+		void *iter;
+		union {
+			GList *list;
+			struct mapset_handle *mapset_handle;
+		} u;
 	};
 
 	struct attr_iter * a_iter;
@@ -170,29 +172,36 @@ static void traffic_traff_mqtt_on_feed_received(struct traffic_priv * this_,
 }
 
 static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
-	// TODO: create MQTT client and subscribe for the topic. How to configure the broker url, username and password?
-	// Would be best to use https.
 
-    MQTTClient client;
-    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
-    int rc;
-    int ch;
-    MQTTClient_create(&client, ADDRESS, CLIENTID,
-        MQTTCLIENT_PERSISTENCE_NONE, NULL);
-    conn_opts.keepAliveInterval = 20;
-    conn_opts.cleansession = 1;
-    MQTTClient_setCallbacks(client, this_, connlost, msgarrvd, delivered);
-    if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS)
-    {
-        printf("Failed to connect, return code %d\n", rc);
-        exit(1);
-    }
-    printf("Subscribing to topic %s\nfor client %s using QoS%d\n\n", TOPIC, CLIENTID, QOS);
-    MQTTClient_subscribe(client, TOPIC, QOS);
+	MQTTClient client;
+	MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+	int rc;
+	int ch;
+	MQTTClient_create(&client, ADDRESS, CLIENTID,
+	MQTTCLIENT_PERSISTENCE_NONE, NULL);
+	conn_opts.keepAliveInterval = 20;
+	conn_opts.cleansession = 1;
+	MQTTClient_setCallbacks(client, this_, connlost, msgarrvd, delivered);
 
-//	while (1) {
-//		sleep(1);
-//	}
+	while (TRUE) {
+
+		if (!connected) {
+
+			if ((rc = MQTTClient_connect(client, &conn_opts))
+					!= MQTTCLIENT_SUCCESS) {
+				printf("MQTT: Failed to connect to %s, return code %d\n\n", ADDRESS, rc);
+			} else {
+
+				connected = TRUE;
+
+				printf("MQTT: Subscribing to topic %s for client %s using QoS%d at %s\n\n",
+				TOPIC, CLIENTID, QOS, ADDRESS);
+				MQTTClient_subscribe(client, TOPIC, QOS);
+			}
+		}
+
+		sleep(1);
+	}
 
 }
 /**
@@ -201,10 +210,10 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
  * @return True on success, false on failure
  */
 static int traffic_traff_mqtt_init(struct traffic_priv * this_) {
-	//pthread_t subscriber;
+	pthread_t subscriber;
 
-	//pthread_create(&subscriber, NULL, traffic_traff_mqtt_receive, this_);
-	traffic_traff_mqtt_receive(this_);
+	pthread_create(&subscriber, NULL, traffic_traff_mqtt_receive, this_);
+//	traffic_traff_mqtt_receive(this_);
 	return 1;
 }
 
