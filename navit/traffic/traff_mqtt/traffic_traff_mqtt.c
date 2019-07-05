@@ -56,7 +56,7 @@ volatile bool connected = FALSE;
 volatile MQTTClient_deliveryToken deliveredtoken;
 
 static void traffic_traff_mqtt_on_feed_received(struct traffic_priv * this_,
-		char * feed);
+	char * feed);
 
 static void traffic_traff_mqtt_receive(struct traffic_priv * this_);
 
@@ -213,7 +213,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
 	conn_opts.keepAliveInterval = 20;
 	conn_opts.cleansession = 1;
 	MQTTClient_setCallbacks(client, this_, connlost, msgarrvd, delivered);
-	int delay=1;
+	int delay = 1;
 
 	while (TRUE) {
 
@@ -221,16 +221,19 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
 
 			if ((rc = MQTTClient_connect(client, &conn_opts))
 					!= MQTTCLIENT_SUCCESS) {
-				dbg(lvl_info, "MQTT: Failed to connect to %s, return code %d. Try reconnect in %i seconds\n\n", ADDRESS, rc, delay + 1);
-				if(delay < 61)
+				dbg(lvl_info,
+						"MQTT: Failed to connect to %s, return code %d. Try reconnect in %i seconds\n\n",
+						ADDRESS, rc, delay + 1);
+				if (delay < 61)
 					delay++;
 			} else {
 
 				connected = TRUE;
-				delay=1;
+				delay = 1;
 
-				dbg(lvl_info, "MQTT: Subscribing to topic %s for client %s using QoS%d at %s\n\n",
-				TOPIC, CLIENTID, QOS, ADDRESS);
+				dbg(lvl_info,
+						"MQTT: Subscribing to topic %s for client %s using QoS%d at %s\n\n",
+						TOPIC, CLIENTID, QOS, ADDRESS);
 				MQTTClient_subscribe(client, TOPIC, QOS);
 			}
 		}
