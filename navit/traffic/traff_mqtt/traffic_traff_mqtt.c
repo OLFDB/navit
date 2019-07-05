@@ -67,7 +67,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_);
  * @param dt 	  The token of the message delivered
  */
 void delivered(void *context, MQTTClient_deliveryToken dt) {
-	printf("MQTT: Message with token value %d delivery confirmed\n", dt);
+	dbg(lvl_info, "MQTT: Message with token value %d delivery confirmed", dt);
 	deliveredtoken = dt;
 }
 
@@ -83,17 +83,20 @@ int msgarrvd(void *context, char *topicName, int topicLen,
 		MQTTClient_message *message) {
 	int i;
 	char* payloadptr;
-	printf("MQTT: Message arrived\n");
-	printf("     topic: %s\n", topicName);
-	printf("   message: ");
+
+	dbg(lvl_info, "MQTT: Message arrived");
+	dbg(lvl_info, "topic: %s", topicName);
+
 	payloadptr = message->payload;
 	char traffmsg[message->payloadlen + 1];
+
 	for (i = 0; i < message->payloadlen; i++) {
-		putchar(*payloadptr);
 		traffmsg[i] = *payloadptr++;
 	}
-	putchar('\n');
+
 	traffmsg[i] = 0;
+
+	dbg(lvl_info, "\n%s", traffmsg);
 
 	payloadptr = message->payload;
 
@@ -111,8 +114,8 @@ int msgarrvd(void *context, char *topicName, int topicLen,
  * @param cause   The cause for the connection loss
  */
 void connlost(void *context, char *cause) {
-	printf("\nMQTT: Connection lost\n");
-	printf("     cause: %s\n\n", cause);
+	dbg(lvl_info, "\nMQTT: Connection lost\n");
+	dbg(lvl_info, "     cause: %s\n\n", cause);
 
 	connected = FALSE;
 
@@ -180,7 +183,7 @@ static void traffic_traff_mqtt_on_feed_received(struct traffic_priv * this_,
 	g_free(attr);
 
 	if (!traffic) {
-		dbg(lvl_error, "failed to obtain traffic instance");
+		dbg(lvl_info, "failed to obtain traffic instance");
 		return;
 	}
 
@@ -218,7 +221,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
 
 			if ((rc = MQTTClient_connect(client, &conn_opts))
 					!= MQTTCLIENT_SUCCESS) {
-				printf("MQTT: Failed to connect to %s, return code %d. Try reconnect in %i seconds\n\n", ADDRESS, rc, delay + 1);
+				dbg(lvl_info, "MQTT: Failed to connect to %s, return code %d. Try reconnect in %i seconds\n\n", ADDRESS, rc, delay + 1);
 				if(delay < 61)
 					delay++;
 			} else {
@@ -226,7 +229,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
 				connected = TRUE;
 				delay=1;
 
-				printf("MQTT: Subscribing to topic %s for client %s using QoS%d at %s\n\n",
+				dbg(lvl_info, "MQTT: Subscribing to topic %s for client %s using QoS%d at %s\n\n",
 				TOPIC, CLIENTID, QOS, ADDRESS);
 				MQTTClient_subscribe(client, TOPIC, QOS);
 			}
