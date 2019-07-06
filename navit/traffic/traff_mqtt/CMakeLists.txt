@@ -9,6 +9,7 @@ ExternalProject_Add(pahoc
 
 include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
 link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
+set_property(TARGET ${pahoc} APPEND_STRING PROPERTY LINK_FLAGS " -lrt ")
 
 module_add_library(traffic_traff_mqtt traffic_traff_mqtt.c)
 
