@@ -49,7 +49,7 @@ jobs:
       - run: if scripts/check_need_build.sh; then circleci step halt; fi
       - run:
           name: Install doxygen and other essentials
-          command: apt-get update && apt-get -y install doxygen ca-certificates git rsync
+          command: add-apt-repository ppa:git-core/ppa; apt update; apt-get update && apt-get -y install doxygen ca-certificates git rsync
       - run:
           name: Run doxygen
           command: cd navit && doxygen
