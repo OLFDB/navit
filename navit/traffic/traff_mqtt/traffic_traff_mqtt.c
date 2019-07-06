@@ -80,7 +80,7 @@ void delivered(void *context, MQTTClient_deliveryToken dt) {
  * @param message	The message
  */
 int msgarrvd(void *context, char *topicName, int topicLen,
-        MQTTClient_message *message) {
+             MQTTClient_message *message) {
     int i;
     char* payloadptr;
 
@@ -130,7 +130,7 @@ struct traffic_priv {
 };
 
 struct traffic_message ** traffic_traff_mqtt_get_messages(
-        struct traffic_priv * this_);
+    struct traffic_priv * this_);
 
 /**
  * @brief Returns an empty traffic report.
@@ -138,7 +138,7 @@ struct traffic_message ** traffic_traff_mqtt_get_messages(
  * @return Always `NULL`
  */
 struct traffic_message ** traffic_traff_mqtt_get_messages(
-        struct traffic_priv * this_) {
+    struct traffic_priv * this_) {
     return NULL;
 }
 
@@ -146,7 +146,8 @@ struct traffic_message ** traffic_traff_mqtt_get_messages(
  * @brief The methods implemented by this plugin
  */
 static struct traffic_methods traffic_traff_mqtt_meth = {
-        traffic_traff_mqtt_get_messages, };
+    traffic_traff_mqtt_get_messages,
+};
 
 /**
  * @brief Called when a new TraFF feed is received.
@@ -209,7 +210,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
     int rc;
     int ch;
     MQTTClient_create(&client, ADDRESS, CLIENTID,
-    MQTTCLIENT_PERSISTENCE_NONE, NULL);
+                      MQTTCLIENT_PERSISTENCE_NONE, NULL);
     conn_opts.keepAliveInterval = 20;
     conn_opts.cleansession = 1;
     MQTTClient_setCallbacks(client, this_, connlost, msgarrvd, delivered);
@@ -222,8 +223,8 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
             if ((rc = MQTTClient_connect(client, &conn_opts))
                     != MQTTCLIENT_SUCCESS) {
                 dbg(lvl_info,
-                        "MQTT: Failed to connect to %s, return code %d. Try reconnect in %i seconds\n\n",
-                        ADDRESS, rc, delay + 1);
+                    "MQTT: Failed to connect to %s, return code %d. Try reconnect in %i seconds\n\n",
+                    ADDRESS, rc, delay + 1);
                 if (delay < 61)
                     delay++;
             } else {
@@ -232,8 +233,8 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
                 delay = 1;
 
                 dbg(lvl_info,
-                        "MQTT: Subscribing to topic %s for client %s using QoS%d at %s\n\n",
-                        TOPIC, CLIENTID, QOS, ADDRESS);
+                    "MQTT: Subscribing to topic %s for client %s using QoS%d at %s\n\n",
+                    TOPIC, CLIENTID, QOS, ADDRESS);
                 MQTTClient_subscribe(client, TOPIC, QOS);
             }
         }
@@ -275,7 +276,7 @@ static struct traffic_priv * traffic_traff_mqtt_new(struct navit *nav,
     ret = g_new0(struct traffic_priv, 1);
     ret->nav = nav;
     ret->cbid = callback_new_1(
-            callback_cast(traffic_traff_mqtt_on_feed_received), ret);
+                    callback_cast(traffic_traff_mqtt_on_feed_received), ret);
     /* TODO populate members, if any */
     *meth = traffic_traff_mqtt_meth;
 
