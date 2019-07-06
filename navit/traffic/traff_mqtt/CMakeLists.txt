@@ -13,5 +13,5 @@ link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
 module_add_library(traffic_traff_mqtt traffic_traff_mqtt.c)
 
 add_dependencies(traffic_traff_mqtt pahoc)
-target_link_libraries(traffic_traff_mqtt ${EXTERNAL_INSTALL_LOCATION}/lib paho-mqtt3c)
+target_link_libraries(traffic_traff_mqtt paho-mqtt3c)
 
