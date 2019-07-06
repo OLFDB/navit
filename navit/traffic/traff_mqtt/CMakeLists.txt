@@ -8,7 +8,7 @@ ExternalProject_Add(pahoc
 )
 
 include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
-link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
+link_directories(${EXTERNAL_INSTALL_LOCATION}/lib/)
 
 module_add_library(traffic_traff_mqtt traffic_traff_mqtt.c)
 
