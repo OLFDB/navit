@@ -44,6 +44,8 @@
 #include <pthread.h>
 #include "MQTTClient.h"
 #include <stdbool.h>
+#include "navit.h"
+#include <unistd.h>
 
 #define ADDRESS     "tcp://localhost:1883"
 #define CLIENTID    "navit"
@@ -59,6 +61,10 @@ static void traffic_traff_mqtt_on_feed_received(struct traffic_priv * this_,
         char * feed);
 
 static void traffic_traff_mqtt_receive(struct traffic_priv * this_);
+void delivered(void *context, MQTTClient_deliveryToken dt);
+int msgarrvd(void *context, char *topicName, int topicLen,
+             MQTTClient_message *message);
+void connlost(void *context, char *cause);
 
 /**
  * @brief Called by MQTT thread when a message is delivered.
@@ -159,17 +165,17 @@ static void traffic_traff_mqtt_on_feed_received(struct traffic_priv * this_,
         char * feed) {
     struct attr * attr;
 
-    struct mapset_handle {
-        GList *l; /**< Pointer to the current (next) map */
-    };
-
-    struct attr_iter {
-        void *iter;
-        union {
-            GList *list;
-            struct mapset_handle *mapset_handle;
-        } u;
-    };
+//    struct mapset_handle {
+//        GList *l; /**< Pointer to the current (next) map */
+//    };
+//
+//    struct attr_iter {
+//        void *iter;
+//        union {
+//            GList *list;
+//            struct mapset_handle *mapset_handle;
+//        } u;
+//    };
 
     struct attr_iter * a_iter;
     struct traffic * traffic = NULL;
@@ -177,7 +183,8 @@ static void traffic_traff_mqtt_on_feed_received(struct traffic_priv * this_,
 
     dbg(lvl_debug, "enter");
     attr = g_new0(struct attr, 1);
-    a_iter = g_new0(struct attr_iter, 1);
+    //a_iter = g_new0(struct attr_iter, 1);
+    a_iter = navit_attr_iter_new();
     if (navit_get_attr(this_->nav, attr_traffic, attr, a_iter))
         traffic = (struct traffic *) attr->u.navit_object;
     navit_attr_iter_destroy(a_iter);
@@ -208,7 +215,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
     MQTTClient client;
     MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
     int rc;
-    int ch;
+
     MQTTClient_create(&client, ADDRESS, CLIENTID,
                       MQTTCLIENT_PERSISTENCE_NONE, NULL);
     conn_opts.keepAliveInterval = 20;
@@ -251,7 +258,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
 static int traffic_traff_mqtt_init(struct traffic_priv * this_) {
     pthread_t subscriber;
 
-    pthread_create(&subscriber, NULL, traffic_traff_mqtt_receive, this_);
+    pthread_create(&subscriber, NULL, (void * (*)(void *)) traffic_traff_mqtt_receive, this_);
 
     return 1;
 }
