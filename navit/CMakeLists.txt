@@ -46,7 +46,6 @@ foreach ( MODULE_PATH ${ALL_MODULES})
 
 		if (NOT USE_PLUGINS)
 			list(APPEND MODULES_NAME ${MODULE_INC})
-			link_directories("${CMAKE_BINARY_DIR}/pahoc/lib/")
 		else()
 			string(REGEX REPLACE "(^[^/]*)/.*" "\\1" ${MODULE_INC}_TYPE ${MODULE_PATH})
 		endif()
