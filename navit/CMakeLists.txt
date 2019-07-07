@@ -11,6 +11,8 @@ set(NAVIT_SRC announcement.c atom.c attr.c cache.c callback.c command.c config_.
 	profile.c profile_option.c projection.c roadprofile.c route.c script.c search.c speech.c start_real.c sunriset.c transform.c track.c
 	search_houseno_interpol.c traffic.c util.c vehicle.c vehicleprofile.c xmlconfig.c )
 
+set_source_files_properties(debug.c PROPERTIES COMPILE_FLAGS -Wno-frame-address)
+
 if(NOT USE_PLUGINS)
 	list(APPEND NAVIT_SRC  ${CMAKE_CURRENT_BINARY_DIR}/builtin.c)
 endif(NOT USE_PLUGINS)
@@ -103,6 +105,7 @@ endif(SHARED_LIBNAVIT)
 if(NOT MSVC)
 	SET(NAVIT_LIBS ${NAVIT_LIBS} m)
 endif(NOT MSVC)
+MESSAGE(STATUS "MODULES_NAME: ${MODULES_NAME} NAVIT_SUPPORT_LIBS ${NAVIT_SUPPORT_LIBS} NAVIT_LIBS ${NAVIT_LIBS}")
 target_link_libraries(${NAVIT_LIBNAME}  ${MODULES_NAME} ${NAVIT_SUPPORT_LIBS} fib ${NAVIT_LIBS} )
 set_target_properties(${NAVIT_LIBNAME} PROPERTIES COMPILE_DEFINITIONS "MODULE=navit;LIBDIR=\"${CMAKE_INSTALL_PREFIX}/${LIB_DIR}\";PREFIX=\"${CMAKE_INSTALL_PREFIX}\"")
 if (DEFINED NAVIT_COMPILE_FLAGS)
