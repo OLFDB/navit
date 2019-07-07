@@ -46,10 +46,11 @@
 #include <stdbool.h>
 #include "navit.h"
 #include <unistd.h>
+#include "zlib.h"
 
 #define ADDRESS     "tcp://localhost:1883"
 #define CLIENTID    "navit"
-#define TOPIC       "navit/traff"
+#define TOPIC       "navit/traffzip"
 #define QOS         1
 #define TIMEOUT     10000L
 
@@ -85,26 +86,26 @@ void delivered(void *context, MQTTClient_deliveryToken dt) {
  * @param topicLen	The length of the topic
  * @param message	The message
  */
-int msgarrvd(void *context, char *topicName, int topicLen,
-             MQTTClient_message *message) {
-    int i;
+int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message) {
+
     char* payloadptr;
 
     dbg(lvl_info, "MQTT: Message arrived");
     dbg(lvl_info, "topic: %s", topicName);
 
     payloadptr = message->payload;
-    char traffmsg[message->payloadlen + 1];
+    char traffmsg[4096];
 
-    for (i = 0; i < message->payloadlen; i++) {
-        traffmsg[i] = *payloadptr++;
+    uLongf len = 4096;
+
+    /* inflate the message */
+    int result = uncompress((Bytef *) traffmsg, &len, (Bytef *) payloadptr, message->payloadlen);
+
+    if (result != Z_OK) {
+        dbg(lvl_info, "Decomp error\n%i", result);
     }
 
-    traffmsg[i] = 0;
-
     dbg(lvl_info, "\n%s", traffmsg);
-
-    payloadptr = message->payload;
 
     traffic_traff_mqtt_on_feed_received(context, traffmsg);
 
@@ -164,19 +165,6 @@ static struct traffic_methods traffic_traff_mqtt_meth = {
 static void traffic_traff_mqtt_on_feed_received(struct traffic_priv * this_,
         char * feed) {
     struct attr * attr;
-
-//    struct mapset_handle {
-//        GList *l; /**< Pointer to the current (next) map */
-//    };
-//
-//    struct attr_iter {
-//        void *iter;
-//        union {
-//            GList *list;
-//            struct mapset_handle *mapset_handle;
-//        } u;
-//    };
-
     struct attr_iter * a_iter;
     struct traffic * traffic = NULL;
     struct traffic_message ** messages;
