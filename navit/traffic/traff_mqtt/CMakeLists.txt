@@ -1,5 +1,5 @@
 #Currently supported only on Linux
-IF(UNIX AND NOT ANDROID AND NOT APPLE)
+IF(traffic/traff_mqtt)
     include(ExternalProject)
 
     set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/pahoc)
@@ -15,5 +15,5 @@ IF(UNIX AND NOT ANDROID AND NOT APPLE)
     module_add_library(traffic_traff_mqtt traffic_traff_mqtt.c)
 
     add_dependencies(traffic_traff_mqtt pahoc)
-    target_link_libraries(traffic_traff_mqtt paho-mqtt3c)
-ENDIF (UNIX AND NOT ANDROID AND NOT APPLE)
+    target_link_libraries(traffic_traff_mqtt libpaho-mqtt3c.so)
+ENDIF (traffic/traff_mqtt)
