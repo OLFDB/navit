@@ -1227,6 +1227,9 @@ static DBusHandlerResult request_navit_traffic_export_gpx(DBusConnection *connec
     struct coord c, c_last;
     struct coord_geo g;
 
+    c_last.x=0;
+    c_last.y=0;
+
     char *header = "<?xml version='1.0' encoding='UTF-8'?>\n"
                    "<gpx version='1.1' creator='Navit http://navit.sourceforge.net'\n"
                    "     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n"
