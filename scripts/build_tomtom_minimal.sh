@@ -31,7 +31,7 @@ mkdir -p build
 pushd build
 cmake ../ -DCMAKE_INSTALL_PREFIX=$PREFIX -DFREETYPE_INCLUDE_DIRS=$PREFIX/include/freetype2/ -Dsupport/gettext_intl=TRUE \
 -DHAVE_API_TOMTOM=TRUE -DXSLTS=tomtom -DAVOID_FLOAT=TRUE -Dmap/mg=FALSE -DUSE_PLUGINS=0 -DCMAKE_TOOLCHAIN_FILE=../Toolchain/$ARCH.cmake \
--DDISABLE_QT=ON -DSAMPLE_MAP=n -DBUILD_MAPTOOL=n
+-DDISABLE_QT=ON -DSAMPLE_MAP=n -DBUILD_MAPTOOL=n -Dtraffic/traff_mqtt=false
 make -j$JOBS
 make install
 

@@ -93,6 +93,7 @@ cmake  -DCMAKE_INSTALL_PREFIX:PATH=/usr \
        -Dspeech/dbus:BOOL=FALSE \
        -Dvehicle/gpsd:BOOL=FALSE \
        -Dvehicle/gpsd_dbus:BOOL=FALSE \
+       -Dtraffic/traff_mqtt=FALSE \
        -DUSE_PLUGINS=n \
        -DUSE_QWIDGET:BOOL=FALSE \
        -DXSLTS:STRING="sailfish_disable;sailfish_qt5;sailfish_osd;sailfish_cursor;sailfish_mapset;sailfish_svg;sailfish_gui" \
