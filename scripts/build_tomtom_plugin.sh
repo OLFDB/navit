@@ -1,4 +1,3 @@
-nrf15822§$%
 #!/usr/bin/env bash
 # this builds a plugin for tomtom
 # in case you want to build a standalone system
