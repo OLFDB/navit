@@ -11,7 +11,8 @@ set(NAVIT_SRC announcement.c atom.c attr.c cache.c callback.c command.c config_.
 	profile.c profile_option.c projection.c roadprofile.c route.c script.c search.c speech.c start_real.c sunriset.c transform.c track.c
 	search_houseno_interpol.c traffic.c util.c vehicle.c vehicleprofile.c xmlconfig.c )
 
-set_source_files_properties(debug.c PROPERTIES COMPILE_FLAGS -Wno-frame-address)
+#This is causing issues with the tomtom compiler on circle ci
+#set_source_files_properties(debug.c PROPERTIES COMPILE_FLAGS -Wno-frame-address)
 
 if(NOT USE_PLUGINS)
 	list(APPEND NAVIT_SRC  ${CMAKE_CURRENT_BINARY_DIR}/builtin.c)
