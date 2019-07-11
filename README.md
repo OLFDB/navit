@@ -17,9 +17,7 @@ The messages are expected as zlib compressed, or uncompressed feeds:
 \</feed>
 
 
-Config example in navit.xml:
-\<traffic type="traff_mqtt" mqtt_brokerurl="tcp://broker.hivemq.com:1883" mqtt_topic="navit/traffzip" 
-mqtt_compressed="yes" mqtt_user="john" mqtt_passwd="doe"/>
+Config example in navit.xml: \<traffic type="traff_mqtt" mqtt_brokerurl="tcp://broker.hivemq.com:1883" mqtt_topic="navit/traffzip" mqtt_compressed="yes" mqtt_user="john" mqtt_passwd="doe"/>
 
 If the config (mqtt_xxx=) is omitted the system connects to localhost without username and password and uses topic "navit/traff" expecting uncompressed payload.
 
