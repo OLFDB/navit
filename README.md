@@ -1,5 +1,5 @@
 This branch is based on the traffic branch. It adds a traff MQTT plugin to receive traff messages via MQTT.
-The messages are expected as compressed, or uncompressed feeds:
+The messages are expected as zlib compressed, or uncompressed feeds:
 
 \<feed>
   \<message id="tmc:d.1.17:d.1.10195.p.4.4" receive_time="2019-07-11T10:43:59+02:00" update_time="2019-07-11T08:47:23Z" expiration_time="2019-07-11T09:02:23Z" urgency="URGENT">
@@ -18,7 +18,7 @@ The messages are expected as compressed, or uncompressed feeds:
 
 
 Config example in navit.xml:
-<traffic type="traff_mqtt" mqtt_brokerurl="tcp://broker.hivemq.com:1883" mqtt_topic="navit/traffzip" 
+\<traffic type="traff_mqtt" mqtt_brokerurl="tcp://broker.hivemq.com:1883" mqtt_topic="navit/traffzip" 
 mqtt_compressed="yes" mqtt_user="john" mqtt_passwd="doe"/>
 
 If the config (mqtt_xxx=) is omitted the system connects to localhost without username and password and uses topic "navit/traff" expecting uncompressed payload.
