@@ -231,7 +231,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
     uuid_unparse_upper(binuuid, uuid);
 
     MQTTClient_create(&client, (this_->mqtt->brokerurl != 0) ? this_->mqtt->brokerurl : ADDRESS, uuid,
-    MQTTCLIENT_PERSISTENCE_NONE, NULL);
+                      MQTTCLIENT_PERSISTENCE_NONE, NULL);
 
     if (this_->mqtt->user && this_->mqtt->passwd) {
         conn_opts.username = this_->mqtt->user;
@@ -249,7 +249,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
 
             if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS) {
                 dbg(lvl_debug, "MQTT: Failed to connect to %s, return code %d. Try reconnect in %i seconds\n\n", ADDRESS,
-                            rc, delay + 1);
+                    rc, delay + 1);
                 if (delay < 61)
                     delay++;
             } else {
@@ -258,8 +258,8 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
                 delay = 1;
 
                 dbg(lvl_debug, "MQTT: Subscribing to topic %s for client %s using QoS%d at %s\n\n",
-                            (this_->mqtt->topic!=0)?this_->mqtt->topic:TOPIC, uuid, QOS,
-                            (this_->mqtt->brokerurl != 0) ? this_->mqtt->brokerurl : ADDRESS);
+                    (this_->mqtt->topic!=0)?this_->mqtt->topic:TOPIC, uuid, QOS,
+                    (this_->mqtt->brokerurl != 0) ? this_->mqtt->brokerurl : ADDRESS);
                 MQTTClient_subscribe(client, (this_->mqtt->topic != 0) ? this_->mqtt->topic : TOPIC, QOS);
             }
         }
@@ -292,7 +292,7 @@ static int traffic_traff_mqtt_init(struct traffic_priv * this_) {
  * @return A pointer to a `traffic_priv` structure for the plugin instance
  */
 static struct traffic_priv * traffic_traff_mqtt_new(struct navit *nav, struct traffic_methods *meth,
-            struct attr **attrs, struct callback_list *cbl) {
+        struct attr **attrs, struct callback_list *cbl) {
 
     struct traffic_priv *ret;
     struct attr * attr;
