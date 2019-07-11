@@ -54,7 +54,7 @@
  * @brief Default config data for the broker connection
  */
 #define ADDRESS     "tcp://localhost:1883"
-#define TOPIC       "navit/traffzip"
+#define TOPIC       "navit/traff"
 #define QOS         1
 #define TIMEOUT     10000L
 
