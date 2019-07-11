@@ -334,7 +334,7 @@ static char *element_fixmes[]= {
 };
 
 static void initStatic(void) {
-    elements=g_new0(struct element_func, 45); //44 is a number of elements + ending NULL element
+    elements=g_new0(struct element_func, 49); //48 is a number of elements + ending NULL element
 
     elements[0].name="config";
     elements[0].parent=NULL;
@@ -554,6 +554,31 @@ static void initStatic(void) {
     elements[43].parent="navit";
     elements[43].func=NULL;
     elements[43].type=attr_traffic;
+
+    elements[44].name = "brokerurl";
+    elements[44].parent = "navit";
+    elements[44].func = NULL;
+    elements[44].type = attr_mqtt_brokerurl;
+
+    elements[45].name = "compressed";
+    elements[45].parent = "navit";
+    elements[45].func = NULL;
+    elements[45].type = attr_mqtt_compressed;
+
+    elements[46].name = "topic";
+    elements[46].parent = "navit";
+    elements[46].func = NULL;
+    elements[46].type = attr_mqtt_topic;
+
+    elements[47].name = "user";
+    elements[47].parent = "navit";
+    elements[47].func = NULL;
+    elements[47].type = attr_mqtt_user;
+
+    elements[48].name = "passwd";
+    elements[48].parent = "navit";
+    elements[48].func = NULL;
+    elements[48].type = attr_mqtt_passwd;
 }
 
 /**
