@@ -1,20 +1,20 @@
 This branch is based on the traffic branch. It adds a traff MQTT plugin to receive traff messages via MQTT.
 The messages are expected as compressed, or uncompressed feeds:
 
-<feed>
-  <message id="tmc:d.1.17:d.1.10195.p.4.4" receive_time="2019-07-11T10:43:59+02:00" update_time="2019-07-11T08:47:23Z" expiration_time="2019-07-11T09:02:23Z" urgency="URGENT">
-    <location fuzziness="LOW_RES" directionality="ONE_DIRECTION" ramps="NONE" road_class="MOTORWAY" road_ref="A10" road_name="Südlicher Berliner Ring">
-      <from junction_name="Niederlehme" junction_ref="9">+52.312859 +13.662890</from>
-      <to junction_name="Spreeau" junction_ref="8">+52.325001 +13.745400</to>
-    </location>
-    <events>
-      <event class="INCIDENT" type="INCIDENT_BROKEN_DOWN_HGV" q_int="1">
-        <supplementary_info class="WARNING" type="S_WARNING_DANGER"/>
-        <supplementary_info class="INSTRUCTION" type="S_INSTRUCTION_EXTREME_CAUTION"/>
-      </event>
-    </events>
-  </message>
-</feed>
+\<feed>
+  \<message id="tmc:d.1.17:d.1.10195.p.4.4" receive_time="2019-07-11T10:43:59+02:00" update_time="2019-07-11T08:47:23Z" expiration_time="2019-07-11T09:02:23Z" urgency="URGENT">
+    \<location fuzziness="LOW_RES" directionality="ONE_DIRECTION" ramps="NONE" road_class="MOTORWAY" road_ref="A10" road_name="Südlicher Berliner Ring">
+      \<from junction_name="Niederlehme" junction_ref="9">\+52.312859 \+13.662890\</from>
+      \<to junction_name="Spreeau" junction_ref="8"\>+52.325001 +13.745400\</to>
+    \</location>
+    \<events>
+      \<event class="INCIDENT" type="INCIDENT_BROKEN_DOWN_HGV" q_int="1">
+        \<supplementary_info class="WARNING" type="S_WARNING_DANGER"/>
+        \<supplementary_info class="INSTRUCTION" type="S_INSTRUCTION_EXTREME_CAUTION"/>
+      \</event>
+    \</events>
+  \</message>
+\</feed>
 
 
 Config example in navit.xml:
