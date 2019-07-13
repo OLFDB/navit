@@ -37,7 +37,7 @@ for f in $(git diff --name-only ${interval} | sort -u); do
     if [[ -e "${f}" ]]; then
 
         # Checks for trailing spaces
-        if [[ "${f: -4}" != ".bat" ]]; then
+        if [[ "${f: -4}" != ".bat" ]] && [[ "${f: -3}" != ".md" ]]; then
             echo "[INFO] Checking for trailing spaces on ${f}..."
             if [[ "$(file -bi """${f}""")" =~ ^text ]]; then
                 sed 's/\s*$//' -i "${f}"
