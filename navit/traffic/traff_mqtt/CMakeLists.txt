@@ -16,4 +16,5 @@ IF(traffic/traff_mqtt)
 
     add_dependencies(traffic_traff_mqtt pahoc)
     target_link_libraries(traffic_traff_mqtt libpaho-mqtt3c.so)
+    target_link_libraries(traffic_traff_mqtt uuid)
 ENDIF (traffic/traff_mqtt)
