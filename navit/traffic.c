@@ -342,7 +342,7 @@ static struct seg_data * seg_data_new(void) {
  * @return The timestamp, or 0 if `string` is NULL.
  */
 static time_t time_new(char * string) {
-    if (!string)
+    if (!string || !*string)
         return 0;
     return iso8601_to_time(string);
 }
