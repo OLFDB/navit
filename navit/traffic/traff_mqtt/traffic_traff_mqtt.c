@@ -30,6 +30,7 @@
 
 #ifdef _POSIX_C_SOURCE
 #include <sys/types.h>
+#include <uuid/uuid.h>
 #endif
 #include "glib_slice.h"
 #include "config.h"
@@ -48,7 +49,10 @@
 #include <unistd.h>
 #include "zlib.h"
 #include <stdbool.h>
-#include <uuid/uuid.h>
+#ifdef _WIN32
+#include <Rpc.h>
+#endif
+
 
 /**
  * @brief Default config data for the broker connection
@@ -225,13 +229,28 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
     MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
     int rc;
 
+    char *uuid;
+
+#if  !WIN32
     uuid_t binuuid;
     uuid_generate_random(binuuid);
-    char *uuid = malloc(37);
+    uuid = malloc(37);
     uuid_unparse_upper(binuuid, uuid);
+#else
+    UUID winuuid;
+    char str[40];
+    UuidCreate(&winuuid);
+    sprintf(str, "%l", winuuid.Data1);
+    uuid=&str;
+#endif
 
-    MQTTClient_create(&client, (this_->mqtt->brokerurl != 0) ? this_->mqtt->brokerurl : ADDRESS, uuid,
+    rc = MQTTClient_create(&client, (this_->mqtt->brokerurl != 0) ? this_->mqtt->brokerurl : ADDRESS, uuid,
                       MQTTCLIENT_PERSISTENCE_NONE, NULL);
+
+    if(rc!=MQTTCLIENT_SUCCESS) {
+        dbg(lvl_error, "MQTT: Failed to create MQTT client. Return code %d\n\n", rc);
+        exit(1);
+    }
 
     if (this_->mqtt->user && this_->mqtt->passwd) {
         conn_opts.username = this_->mqtt->user;
