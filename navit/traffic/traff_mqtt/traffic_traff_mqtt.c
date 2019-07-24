@@ -245,7 +245,7 @@ static void traffic_traff_mqtt_receive(struct traffic_priv * this_) {
 #endif
 
     rc = MQTTClient_create(&client, (this_->mqtt->brokerurl != 0) ? this_->mqtt->brokerurl : ADDRESS, uuid,
-                      MQTTCLIENT_PERSISTENCE_NONE, NULL);
+                           MQTTCLIENT_PERSISTENCE_NONE, NULL);
 
     if(rc!=MQTTCLIENT_SUCCESS) {
         dbg(lvl_error, "MQTT: Failed to create MQTT client. Return code %d\n\n", rc);
