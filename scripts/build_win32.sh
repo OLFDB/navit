@@ -8,7 +8,12 @@ mkdir win32
 pushd win32
 
 cmake -Dbinding/python:BOOL=FALSE -DSAMPLE_MAP=n -DBUILD_MAPTOOL=n \
-  -DXSLTS=windows -DCMAKE_TOOLCHAIN_FILE=../Toolchain/mingw32.cmake ..
+ -Dbinding/python=FALSE  -Dbinding/dbus=FALSE -Dvehicle/gpsd_dbus=false \
+ -Dgraphics/gtk_drawing_area=TRUE -DXSLTS=windows \
+ -DCMAKE_TOOLCHAIN_FILE=../Toolchain/mingw32.cmake ..
+  
+  
+  
 make -j $(nproc --all)
 make -j $(nproc --all) package
 
