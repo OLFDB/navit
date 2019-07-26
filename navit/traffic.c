@@ -5201,6 +5201,24 @@ struct map * traffic_get_map(struct traffic *this_) {
                     this_->idle_ev = event_add_idle(50, this_->idle_cb);
             }
         }
+
+        /* populate map with permanent restrictions */
+                filename = g_strjoin(NULL, navit_get_user_data_directory(TRUE), "/permanent.xml", NULL);
+                messages = traffic_get_messages_from_xml_file(this_, filename);
+                g_free(filename);
+
+                if (messages) {
+                    for (cur_msg = messages; *cur_msg; cur_msg++)
+                        this_->shared->message_queue = g_list_append(this_->shared->message_queue, *cur_msg);
+                    g_free(messages);
+                    if (this_->shared->message_queue) {
+                        if (!this_->idle_cb)
+                            this_->idle_cb = callback_new_2(callback_cast(traffic_process_messages_int),
+                                                            this_, PROCESS_MESSAGES_NO_DUMP_STORE);
+                        if (!this_->idle_ev)
+                            this_->idle_ev = event_add_idle(50, this_->idle_cb);
+                    }
+                }
     }
 
     return this_->map;
