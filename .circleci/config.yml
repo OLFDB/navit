@@ -143,7 +143,9 @@ jobs:
             add-apt-repository -y ppa:george-edison55/cmake-3.x
             apt-get remove -y cmake
             apt-get install -y cmake3
-            apt-get install -y libpng-dev libfreetype6-dev libdbus-glib-1-dev libgtk2.0-dev curl uuid-dev libssl-dev libgtk2.0-dev
+            apt-get install -y cmake zlib1g-dev libpng12-dev libgtk2.0-dev librsvg2-bin \
+g++ gpsd gpsd-clients libgps-dev libdbus-glib-1-dev freeglut3-dev libxft-dev \
+libglib2.0-dev libfreeimage-dev gettext libpng-dev libfreetype6-dev libdbus-glib-1-dev libgtk2.0-dev curl uuid-dev libssl-dev libgtk2.0-dev
             bash scripts/build_win32.sh
       - store_artifacts:
           path: win32/navit.exe
