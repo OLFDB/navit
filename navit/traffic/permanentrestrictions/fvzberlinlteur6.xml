@@ -1,0 +1,82 @@
+<navit_messages>
+  <message id="BerlinFVZLTEURO6_1" receive_time="2019-07-26T08:46:28Z" update_time="2019-07-26T09:06:06Z" start_time="2019-07-26T06:00:00+02:00" end_time="2030-07-28T09:00:00+02:00" expiration_time="2030-07-26T09:21:06Z" urgency="URGENT">
+    <location fuzziness="LOW_RES" directionality="BOTH_DIRECTIONS" ramps="NONE" road_class="SECONDARY" road_ref="" road_name="Leipziger Straße">
+      <from junction_name="Leipziger Platz Ostseite">+52.509709 +13.379545</from>
+      <to junction_name="Charlottenstraße">+52.510480 +13.391853</to>
+    </location>
+    <events>
+      <event class="RESTRICTION" type="RESTRICTION_CLOSED">
+      </event>
+    </events>
+  </message>
+  <message id="BerlinFVZLTEURO6_2" receive_time="2019-07-26T08:46:28Z" update_time="2019-07-26T09:06:06Z" start_time="2019-07-26T06:00:00+02:00" end_time="2030-07-28T09:00:00+02:00" expiration_time="2030-07-26T09:21:06Z" urgency="URGENT">
+    <location fuzziness="LOW_RES" directionality="BOTH_DIRECTIONS" ramps="NONE" road_class="SECONDARY" road_ref="" road_name="Brückenstraße">
+      <from junction_name="Köpenicker Straße">+52.511029 +13.416485</from>
+      <to junction_name="Holzmarktstraße">+52.515412 +13.418060</to>
+    </location>
+    <events>   
+      <event class="RESTRICTION" type="RESTRICTION_CLOSED">
+      </event>
+    </events>
+  </message>
+  <message id="BerlinFVZLTEURO6_3" receive_time="2019-07-26T08:46:28Z" update_time="2019-07-26T09:06:06Z" start_time="2019-07-26T06:00:00+02:00" end_time="2030-07-28T09:00:00+02:00" expiration_time="2030-07-26T09:21:06Z" urgency="URGENT">
+    <location fuzziness="LOW_RES" directionality="BOTH_DIRECTIONS" ramps="NONE" road_class="SECONDARY" road_ref="" road_name="Reinhardtstraße">
+      <from junction_name="Kapelle-Ufer">+52.522082 +13.376538</from>
+      <to junction_name="Charitestraße">+52.522532 +13.379234</to>
+    </location>
+    <events>    
+      <event class="RESTRICTION" type="RESTRICTION_CLOSED">
+      </event>
+    </events>
+  </message>
+  <message id="BerlinFVZLTEURO6_4" receive_time="2019-07-26T08:46:28Z" update_time="2019-07-26T09:06:06Z" start_time="2019-07-26T06:00:00+02:00" end_time="2030-07-28T09:00:00+02:00" expiration_time="2030-07-26T09:21:06Z" urgency="URGENT">
+    <location fuzziness="LOW_RES" directionality="BOTH_DIRECTIONS" ramps="NONE" road_class="SECONDARY" road_ref="L1070" road_name="Alt-Moabit">
+      <from junction_name="Gotzkowskystraße">+52.523806 +13.329654</from>
+      <to junction_name="Beusselstraße">+52.524341 +13.327530</to>
+    </location>
+    <events>   
+      <event class="RESTRICTION" type="RESTRICTION_CLOSED">
+      </event>
+    </events>
+  </message>
+   <message id="Universal" receive_time="2019-07-26T08:46:28Z" update_time="2019-07-26T09:06:06Z" start_time="2019-07-26T06:00:00+02:00" end_time="2030-07-28T09:00:00+02:00" expiration_time="2030-07-26T09:21:06Z" urgency="URGENT">
+    <location fuzziness="LOW_RES" directionality="BOTH_DIRECTIONS" ramps="NONE" road_class="SECONDARY" road_ref="L1070" road_name="Friedrichstraße">
+      <from junction_name="Unter den Linden">+52.517230 13.388811</from>
+      <to junction_name="Dorotheenstraße">+52.518653 +13.388596</to>
+    </location>
+    <events>   
+      <event class="RESTRICTION" type="RESTRICTION_CLOSED">
+      </event>
+    </events>
+  </message>
+  <message id="BerlinFVZLTEURO6_7" receive_time="2019-07-26T08:46:28Z" update_time="2019-07-26T09:06:06Z" start_time="2019-07-26T06:00:00+02:00" end_time="2030-07-28T09:00:00+02:00" expiration_time="2030-07-26T09:21:06Z" urgency="URGENT">
+    <location fuzziness="LOW_RES" directionality="BOTH_DIRECTIONS" ramps="NONE" road_class="SECONDARY" road_ref="L1070" road_name="Stromstraße">
+      <from junction_name="Turmstraße">+52.526394 +13.343197</from>
+      <to junction_name="Bugenhagenstraße">+52.528124 +13.343138</to>
+    </location>
+    <events>    
+      <event class="RESTRICTION" type="RESTRICTION_CLOSED">
+      </event>
+    </events>
+  </message>
+  <message id="BerlinFVZLTEURO6_6" receive_time="2019-07-26T08:46:28Z" update_time="2019-07-26T09:06:06Z" start_time="2019-07-26T06:00:00+02:00" end_time="2030-07-28T09:00:00+02:00" expiration_time="2030-07-26T09:21:06Z" urgency="URGENT">
+    <location fuzziness="LOW_RES" directionality="BOTH_DIRECTIONS" ramps="NONE" road_class="SECONDARY" road_ref="L1070" road_name="Hermannstraße">
+      <from junction_name="Silbersteinstraße">+52.466452 +13.432055</from>
+      <to junction_name="Emser Straße">+52.468446 +13.430832</to>
+    </location>
+    <events>     
+      <event class="RESTRICTION" type="RESTRICTION_CLOSED">
+      </event>
+    </events>
+  </message>
+  <message id="BerlinFVZLTEURO6_5" receive_time="2019-07-26T08:46:28Z" update_time="2019-07-26T09:06:06Z" start_time="2019-07-26T06:00:00+02:00" end_time="2030-07-28T09:00:00+02:00" expiration_time="2030-07-26T09:21:06Z" urgency="URGENT">
+    <location fuzziness="LOW_RES" directionality="BOTH_DIRECTIONS" ramps="NONE" road_class="SECONDARY" road_ref="L1070" road_name="Sibersteinstraße">
+      <from junction_name="Hermannstraße">+52.466452 +13.432055</from>
+      <to junction_name="Karl-Marx-Straße">+52.467629 +13.441984</to>
+    </location>
+    <events>   
+      <event class="RESTRICTION" type="RESTRICTION_CLOSED">
+      </event>
+    </events>
+  </message>  
+</navit_messages>
