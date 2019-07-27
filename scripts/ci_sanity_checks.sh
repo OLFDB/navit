@@ -24,7 +24,12 @@ check_diff(){
 }
 
 # List the files that are different from the trunk
-for f in $(git diff --name-only refs/remotes/origin/trunk | sort -u); do
+from=$(git rev-parse refs/remotes/origin/trunk)
+to=$(git rev-parse HEAD)
+interval=${from}..${to}
+[[ "${from}" == "${to}" ]] && interval=${to}
+
+for f in $(git diff --name-only ${interval} | sort -u); do
     if [[ "${f}" =~ navit/support/ ]] || [[ "${f}" =~ navit/fib-1\.1/ ]] || [[ "${f}" =~ navit/traffic/permanentrestrictions/ ]] ; then
         echo "[DEBUG] Skipping file ${f} ..."
         continue
