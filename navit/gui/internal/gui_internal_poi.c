@@ -299,6 +299,10 @@ gui_internal_cmd_pois_item(struct gui_priv *this, struct coord *center, struct i
     icon=gui_internal_poi_icon(this,item);
     if(!icon && item->type==type_house_number)
         icon=image_new_xs(this,"post");
+    if(!icon && item->type==type_traffic_distortion) {
+        icon=image_new_xs(this,"danger_area");
+        text=g_strdup_printf("%s%s%s%s %s", distbuf, dirbuf, routedistbuf, type, name);
+    }
     if(!icon) {
         icon=image_new_xs(this,"gui_inactive");
         text=g_strdup_printf("%s%s%s%s %s", distbuf, dirbuf, routedistbuf, type, name);
