@@ -237,6 +237,7 @@ static int vehicle_gpsd_try_open(struct vehicle_priv *priv) {
     priv->gps = gps_open(source + 7, port);
     if(!priv->gps) {
 #endif
+        priv->cbt = callback_new_1(callback_cast(vehicle_gpsd_try_open), priv);
         dbg(lvl_error,"gps_open failed for '%s'. Retrying in %d seconds. Have you started gpsd?", priv->source,
             priv->retry_interval);
         g_free(source);
@@ -257,7 +258,6 @@ static int vehicle_gpsd_try_open(struct vehicle_priv *priv) {
     gps_set_raw_hook(priv->gps, vehicle_gpsd_callback);
 #endif
     priv->cb = callback_new_1(callback_cast(vehicle_gpsd_io), priv);
-    priv->cbt = callback_new_1(callback_cast(vehicle_gpsd_try_open), priv);
     priv->evwatch = event_add_watch(priv->gps->gps_fd, event_watch_cond_read, priv->cb);
     if (!priv->gps->gps_fd) {
         dbg(lvl_error,"Warning: gps_fd is 0, most likely you have used a gps.h incompatible to libgps");
