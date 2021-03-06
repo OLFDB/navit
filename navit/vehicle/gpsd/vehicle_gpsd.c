@@ -257,7 +257,9 @@ static int vehicle_gpsd_try_open(struct vehicle_priv *priv) {
 #if GPSD_API_MAJOR_VERSION < 5
     gps_set_raw_hook(priv->gps, vehicle_gpsd_callback);
 #endif
+
     priv->cb = callback_new_1(callback_cast(vehicle_gpsd_io), priv);
+    priv->cbt = callback_new_1(callback_cast(vehicle_gpsd_try_open), priv);
     priv->evwatch = event_add_watch(priv->gps->gps_fd, event_watch_cond_read, priv->cb);
     if (!priv->gps->gps_fd) {
         dbg(lvl_error,"Warning: gps_fd is 0, most likely you have used a gps.h incompatible to libgps");
@@ -313,10 +315,10 @@ static void vehicle_gpsd_close(struct vehicle_priv *priv) {
     }
     if (priv->gps) {
         gps_close(priv->gps);
-#if GPSD_API_MAJOR_VERSION >= 5
-        g_free(priv->gps);
-#endif
-        priv->gps = NULL;
+//#if GPSD_API_MAJOR_VERSION >= 5
+//        g_free(priv->gps);
+//#endif
+//        priv->gps = NULL;
     }
 #ifdef HAVE_GPSBT
     err = gpsbt_stop(&priv->context);
