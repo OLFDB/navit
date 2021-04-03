@@ -602,7 +602,7 @@ static char *attrmap= {
     "w	boundary=civil		border_civil\n"
     "w	boundary=national_park	border_national_park\n"
     "w	boundary=political	border_political\n"
-    "w	boundary=low_emission_zone	low_emission_zone\n"
+    "w	boundary=low_emission_zone	poly_low_emission_zone\n"
     "w	building=*		poly_building\n"
     "w	contour_ext=elevation_major	height_line_1\n"
     "w	contour_ext=elevation_medium	height_line_2\n"
@@ -1899,7 +1899,7 @@ static void relation_add_tag(char *k, char *v) {
         }
     } else if (!g_strcmp0(k,"boundary")) {
         //fprintf(stderr,"access_value %s\n",v);
-        if (!g_strcmp0(v,"administrative") || !g_strcmp0(v,"postal_code") ) {
+        if (!g_strcmp0(v,"administrative") || !g_strcmp0(v,"postal_code")) {
             boundary=1;
         }
         if (!g_strcmp0(v,"low_emission_zone") || !g_strcmp0(v,"national_park")) {
