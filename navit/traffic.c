@@ -3699,8 +3699,7 @@ static int traffic_message_restore_segments(struct traffic_message * this_, stru
                                pitem->coords, pitem->coord_count, this_->id);
             tm_item_add_message_data(item, this_->id,
                                      traffic_get_item_speed(item, seg_data, maxspeed),
-                                     traffic_get_item_delay(seg_data->delay, pitem->length, loc_len),
-                                     NULL, route);
+                                     pitem->delay, NULL, route);
             parsed_item_destroy(pitem);
             this_->priv->items[i] = item;
             i++;
