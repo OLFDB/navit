@@ -426,6 +426,8 @@ if(GTK2_FOUND)
 	if(FREETYPE_FOUND)
 		set_with_reason(graphics/gtk_drawing_area "GTK libs found" TRUE ${GTK2_LIBRARIES})
 	endif(FREETYPE_FOUND)
+else(GTK2_FOUND)
+	set_with_reason(graphics/gtk_drawing_area "GTK libs not found" FALSE)
 endif(GTK2_FOUND)
 
 CHECK_LIBRARY_EXISTS(freeimage FreeImage_Load "" HAVE_FREEIMAGE)
