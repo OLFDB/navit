@@ -3015,6 +3015,9 @@ static void displayitem_draw(struct displayitem *di, struct layout *l, struct di
         else if (dc->e->type == element_arrows)
             count=transform_point_buf(dc->trans, dc->pro, di->c, pa, pa_buf_size, count, mindist, e->u.arrows.width,
                                       width);
+        else if (dc->e->type == element_spikes)
+            count=transform_point_buf(dc->trans, dc->pro, di->c, pa, pa_buf_size, count, mindist, e->u.spikes.width,
+                                      width);
         else
             count=transform_point_buf(dc->trans, dc->pro, di->c, pa, pa_buf_size, count, mindist, 0, NULL);
         switch (e->type) {

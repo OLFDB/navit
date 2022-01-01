@@ -206,9 +206,6 @@ ATTR(real_dpi)
 ATTR(underground_alpha)
 ATTR(sunrise_degrees)
 ATTR(distance)
-ATTR(maxspeed_conditional_speed)
-ATTR(maxspeed_fwd_conditional_speed)
-ATTR(maxspeed_bwd_conditional_speed)
 ATTR2(0x00027500,type_rel_abs_begin)
 /* These attributes are int that can either hold relative or absolute values. See the
  * documentation of ATTR_REL_RELSHIFT for details.
