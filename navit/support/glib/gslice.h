@@ -29,7 +29,6 @@
 #endif
 
 #include <glib/gtypes.h>
-#include "gthreadprivate.h"
 
 G_BEGIN_DECLS
 
