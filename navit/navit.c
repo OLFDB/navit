@@ -3538,14 +3538,8 @@ void navit_layout_switch(struct navit *n) {
 
         //Check that we aren't calculating too fast
         if (vehicle_get_attr(n->vehicle->vehicle, attr_position_time_iso8601,&iso8601_attr,NULL)==1) {
-
-            // add timezone offset to GNSS UTC time to calculate sunrise/set correctly
-            time_t z = time(NULL);
-            struct tm * pdt = gmtime(&z);
-            mktime(pdt);
-
-            // use pdt->tm_isdst to have standard local time when system uses DST
-            currTs=iso8601_to_secs(iso8601_attr.u.str) + (pdt->tm_gmtoff-(pdt->tm_isdst==1?3600:0));
+            currTs=iso8601_to_secs(iso8601_attr.u.str);
+            dbg(lvl_debug,"currTs: %u:%u",currTs%86400/3600,((currTs%86400)%3600)/60);
         }
         dbg(lvl_debug,"prevTs: %u:%u",n->prevTs%86400/3600,((n->prevTs%86400)%3600)/60);
 
