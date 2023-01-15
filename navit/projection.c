@@ -66,13 +66,18 @@ enum projection projection_from_name(const char *name, struct coord *utm_offset)
     }
     if (utm_offset) {
         int scanres = sscanf(name,"utm%d%c",&zone,&ns);
+        if(!scanres) // try upper case
+        	scanres = sscanf(name,"UTM%d%c",&zone,&ns);
         ns = tolower(ns);
         if (scanres == 2 && zone > 0 && zone <= 60 && (ns == 'n' || ns == 's')) {
             utm_offset->x=zone*1000000;
             utm_offset->y=(ns == 's' ? -10000000:0);
             return projection_utm;
         }
-        if (sscanf(name,"utmref%d%c%c%c",&zone,&zone_field,&square_x,&square_y)) {
+        scanres=sscanf(name,"utmref%d%c%c%c",&zone,&zone_field,&square_x,&square_y);
+        if(!scanres) // try upper case
+        	scanres=sscanf(name,"UTMREF%d%c%c%c",&zone,&zone_field,&square_x,&square_y);
+        if (scanres == 4) {
             zone=tolower(zone);
             zone_field=tolower(zone_field);
             square_x=tolower(square_x);

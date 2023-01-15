@@ -550,7 +550,7 @@ add_feature(USE_PLUGINS "default" TRUE)
 add_feature(USE_ROUTING "default" TRUE)
 add_feature(USE_SVG "default" TRUE)
 add_feature(SVG2PNG "default" TRUE)
-add_feature(SAMPLE_MAP "default" TRUE)
+add_feature(SAMPLE_MAP "default" FALSE)
 add_feature(NETWORK_INFO "default" FALSE)
 add_feature(GUI_INTERNAL_VISUAL_DBG "default" FALSE)
 

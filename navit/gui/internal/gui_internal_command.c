@@ -178,6 +178,10 @@ static int gui_internal_cmd_enter_coord(struct gui_priv *this, char *function, s
     gui_internal_widget_append(wr,row);
     row=gui_internal_text_new(this, "52.5219,19.4127", gravity_top_center|flags_fill|orientation_vertical);
     gui_internal_widget_append(wr,row);
+    row=gui_internal_text_new(this, "utm32N: 674499.306 5328063.675", gravity_top_center|flags_fill|orientation_vertical);
+    gui_internal_widget_append(wr,row);
+	row=gui_internal_text_new(this, "utmref32UPU: 74499.306 28063.675",	gravity_top_center | flags_fill | orientation_vertical);
+	gui_internal_widget_append(wr, row);
 
     if (this->keyboard)
         gui_internal_widget_append(w, gui_internal_keyboard(this, VKBD_DEGREE));
