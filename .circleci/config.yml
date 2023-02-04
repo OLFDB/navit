@@ -5,7 +5,7 @@ defaults: &defaults
 jobs:
   sanity_check:
     docker:
-      - image: cimg/android:2021.08.1-ndk
+      - image: cimg/android:2022.12.1-ndk
     steps:
       - checkout
       - run:
